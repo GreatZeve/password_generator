@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.13.7"
       - name: Install dependencies
-        run: pip install -r requirement-dev.txt
+        run: pip install -r requirements-dev.txt
       - name: Check linting
         run: flake8 .
       - name: Run tests
