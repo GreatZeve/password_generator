@@ -19,7 +19,9 @@ jobs:
         with:
           python-version: "3.13.7"
       - name: Install dependencies
-        run: pip install -r requirements-dev.txt
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e .
       - name: Check linting
         run: flake8 .
       - name: Run tests
@@ -30,8 +32,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Normalize image owner
+        run: echo "IMAGE_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_ENV"
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ghcr.io/{ github.actor }/generator_pass:latest
+          tags: ghcr.io/greatzeve/generator_pass:latest
